@@ -1,10 +1,10 @@
 name:                auto-grading
 version:             0.1.0.0
-github:              "githubuser/auto-grading"
+github:              "gwnJoost/auto-grading"
 license:             BSD-3-Clause
-author:              "Author name here"
-maintainer:          "example@example.com"
-copyright:           "2026 Author name here"
+author:              "Joost Peters"
+maintainer:          "joost.peters@student.uva.nl"
+copyright:           "2026 Joost Peters"
 
 extra-source-files:
 - README.md
