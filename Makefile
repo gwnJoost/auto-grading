@@ -2,4 +2,4 @@ build:
 	stack build
 
 run:
-	stack build && stack exec automatic-grading.exe
+	stack build && stack exec auto-grading-exe
