@@ -1,5 +1,5 @@
 module Lib
-    ( grader
+    ( reader
     ) where
 
 import Data.List (nub)
@@ -8,16 +8,16 @@ import System.IO
 import Text.Read
 import Control.Monad
 
-data PropFormula = Top | A Int | Neg PropFormula | And PropFormula PropFormula | Or PropFormula PropFormula | Impl PropFormula PropFormula | Xor PropFormula PropFormula  deriving (Read)
+data PropFormula = Top | A Int | Neg PropFormula | And PropFormula PropFormula | Or PropFormula PropFormula | Impl PropFormula PropFormula | Xor PropFormula PropFormula deriving (Read)
 
 instance Show PropFormula where
     show Top = "T"
-    show (A x) = show x
-    show (Neg x) = "-" ++ (show x)
-    show (And x y) = "(" ++ (show x) ++ " and " ++ (show y) ++ ")"
-    show (Or x y) = "(" ++ (show x) ++ " or " ++ (show y) ++ ")"
-    show (Impl x y) = "(" ++ (show x) ++ " -> " ++ (show y) ++ ")"
-    show (Xor x y) = "(" ++ (show x) ++ " xor " ++ (show y) ++ ")"
+    show (A x) = "(A " ++ show x ++ ")"
+    show (Neg x) = "(Neg " ++ (show x) ++ ")"
+    show (And x y) = "(And " ++ (show x) ++ " " ++ (show y) ++ ")"
+    show (Or x y) = "(Or " ++ (show x) ++ " " ++ (show y) ++ ")"
+    show (Impl x y) = "(Impl " ++ (show x) ++ " " ++ (show y) ++ ")"
+    show (Xor x y) = "(Xor " ++ (show x) ++ " " ++ (show y) ++ ")"
 
 --Given a Universe x and a propositional formuala, determine if the statement holds
 satisfy :: [Int] -> PropFormula -> Bool
@@ -53,16 +53,21 @@ findEvaluation p b = tryEval (axiomList p) where
                    | otherwise = tryEval (x: tail xs)
 
 
+--Checks whether two statements are equivalent
 checkEquivalent :: PropFormula -> PropFormula -> Bool
-checkEquivalent f1 f2 = isNothing (findEvaluation (Or (And f1 (Neg f2)) (And (Neg f1) f2)) True)
+checkEquivalent f1 f2 = isNothing (findEvaluation (Xor f1 f2) True)
 
---placeholder grader that reads in a file and gives a valid output.
-grader :: IO ()
-grader =  do 
-    putStrLn "Give File"
-    file <- getLine
-    content <- readFile file
-    putStrLn content
-    case findEvaluation (read content) False of
-        Just x -> putStrLn (show x)
-        Nothing -> putStrLn "Impossible"
+
+--Check if a proof by equivalence transformations is correct
+checkEquivalenceProof :: [PropFormula] -> Bool
+checkEquivalenceProof (x:[]) = True
+checkEquivalenceProof (x:xs) = checkEquivalent x (head xs) && checkEquivalenceProof xs
+
+--placeholder designed to parse input and test a certain grader.
+reader :: String -> IO ()
+reader a = do 
+    content <- readFile a
+    --let proof = fmap readMaybe (lines content) :: [Maybe PropFormula]
+    let proof = fmap readMaybe (lines content) :: [Maybe PropFormula]
+    putStrLn (show (map fromJust proof))
+    putStrLn (show (checkEquivalenceProof (map fromJust proof)))
