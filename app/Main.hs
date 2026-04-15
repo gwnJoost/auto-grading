@@ -1,6 +1,6 @@
 module Main (main) where
 
-import Lib (reader)
+import Lib (grader)
 
 main :: IO ()
-main = reader "question.txt"
+main = grader "question.txt"

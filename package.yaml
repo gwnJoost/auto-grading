@@ -9,6 +9,8 @@ copyright:           "2026 Joost Peters"
 extra-source-files:
 - README.md
 - CHANGELOG.md
+- src/Predicate/Lex.x
+- src/Predicate/Parse.y
 
 # Metadata used when publishing your package
 # synopsis:            Short description of your package
@@ -17,10 +19,11 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/githubuser/auto-grading#readme>
+description:         Please see the README on GitHub at <https://github.com/gwnJoost/auto-grading#readme>
 
 dependencies:
 - base >= 4.7 && < 5
+- array
 
 ghc-options:
 - -Wall
@@ -32,6 +35,10 @@ ghc-options:
 - -Wmissing-home-modules
 - -Wpartial-fields
 - -Wredundant-constraints
+
+build-tools:
+  - alex
+  - happy
 
 library:
   source-dirs: src
