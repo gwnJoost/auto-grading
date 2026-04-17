@@ -18,8 +18,8 @@ build-type:     Simple
 extra-source-files:
     README.md
     CHANGELOG.md
-    src/Predicate/Lex.x
-    src/Predicate/Parse.y
+    src/Parse/Lex.x
+    src/Parse/Parse.y
 
 source-repository head
   type: git
@@ -28,10 +28,12 @@ source-repository head
 library
   exposed-modules:
       Lib
+      Parse.Lex
+      Parse.Parse
+      Parse.Token
       Predicate
-      Predicate.Lex
-      Predicate.Parse
-      Predicate.Token
+      Set
+      Tests
   other-modules:
       Paths_auto_grading
   autogen-modules:

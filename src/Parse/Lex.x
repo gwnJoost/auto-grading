@@ -2,8 +2,8 @@
 {-# OPTIONS_GHC -w #-}
 {-# OPTIONS_HADDOCK hide #-}
 
-module Predicate.Lex where
-import Predicate.Token
+module Parse.Lex where
+import Parse.Token
 }
 
 %wrapper "posn"
@@ -43,4 +43,12 @@ tokens :-
   "<=>"             { \ p _ -> TokenEqui              p }
   "<-->"            { \ p _ -> TokenEqui              p }
   "↔"               { \ p _ -> TokenEqui              p }
+  -- numbers
   $dig+             { \ p s -> TokenInt (read s)      p }
+  -- Sets
+  "{"               { \ p _ -> TokenOCB               p }
+  "}"               { \ p _ -> TokenCCB               p }
+  ","               { \ p _ -> TokenComma             p }
+  "U"               { \ p _ -> TokenUnion             p }
+  "I"               { \ p _ -> TokenIntersect         p }
+  "\\"              { \ p _ -> TokenDiff              p }

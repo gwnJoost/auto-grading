@@ -1,4 +1,4 @@
-module Predicate.Token where
+module Parse.Token where
 
 data Token a
   = TokenInt    {i::Int,    apn :: a}
@@ -19,5 +19,11 @@ data Token a
   | TokenBoxL              {apn :: a}
   | TokenBoxR              {apn :: a}
   | TokenBox               {apn :: a}
+  | TokenUnion             {apn :: a}
+  | TokenIntersect         {apn :: a}
+  | TokenDiff              {apn :: a}
+  | TokenOCB               {apn :: a}
+  | TokenCCB               {apn :: a}
+  | TokenComma             {apn :: a}
 
   deriving (Eq,Show)
