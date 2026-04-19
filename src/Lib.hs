@@ -10,12 +10,13 @@ import Text.Read
 import Control.Monad()
 
 --other src files
-import Parse.Parse (parsePropFormula)
+import Parse.Parse (parsePropFormula, parseSet, parseSetConst)
 import Predicate
+import Set
 
 --Given a file name reads said file and returns a formula
-parser :: String -> String
-parser s = case parsePropFormula s of
+parser :: Show a => String -> (String -> Either String a) -> String
+parser s f = case f s of
     Left err -> err
     Right p -> show p
 
@@ -23,5 +24,5 @@ parser s = case parsePropFormula s of
 grader :: String -> IO ()
 grader a = do
     content <- readFile a
-    let answer = map parser (lines content)
+    let answer = map (\x -> parser x parseSetConst) (lines content)
     putStrLn (show answer)

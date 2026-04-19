@@ -17,6 +17,7 @@ import Set
 
 %name propParser PropFormula
 %name setParser Set
+%name itemParser Item
 %name setConstParser SetConst
 %tokentype { Token AlexPosn }
 %error { parseError }
@@ -65,6 +66,15 @@ PropFormula : TOP { Top }
 
 Set
   : '{' '}'              { S [] }
+  | '{' Items '}'        { S $2 }
+
+Items
+  : Item                 { [$1] }
+  | Item ',' Items       { $1 : $3 }
+
+Item
+  : INT                   { Int $1 }
+  | Set                   { Set $1 }
 
 SetConst : Set 'U' Set {U $1 $3}
          | Set 'I' Set {I $1 $3}
@@ -80,4 +90,9 @@ parseError _ = Left "parse error"
 parsePropFormula :: String -> Either String PropFormula
 parsePropFormula s = propParser (alexScanTokens s)
 
+parseSet :: String -> Either String Set
+parseSet s = setParser (alexScanTokens s)
+
+parseSetConst :: String -> Either String SetConst
+parseSetConst s = setConstParser (alexScanTokens s)
 }

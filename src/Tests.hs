@@ -17,5 +17,5 @@ checkFormula answer model = checkEquivalent answer model
 
 
 --Given two expression, determine if said expresions are equivalent.
-setExpEquiv :: Ord a => SetConst a -> SetConst a -> Bool
+setExpEquiv :: SetConst -> SetConst -> Bool
 setExpEquiv x y = (simplify x) == (simplify y)
