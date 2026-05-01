@@ -38,4 +38,4 @@ Model answer to compare input to.
 Determine what should be the maximum amount of points awarded, set to 1 if none are given.
 
 `-f`: 
-Use this option to read in from a file instad of the arguments. -i and -a should be directories instead of singular lines.
+Use this option to read in from a file instad of the arguments. `-i` and `-a` should be directories instead of singular lines.

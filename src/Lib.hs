@@ -6,6 +6,6 @@ module Lib
 grader :: (a -> a -> Float -> Float) -> (String -> Either (Int, Int) a) -> Float -> String -> String -> IO ()
 grader grade parse points input answer = do
     case (parse input, parse answer) of
-        (Left (r, c), _) -> putStrLn ("Could not parse input at row " ++ (show r) ++ " and col " ++ (show c) ++ ".")
-        (_, Left (r, c)) -> putStrLn ("Could not parse answer at row " ++ (show r) ++ " and col " ++ (show c) ++ ".")
+        (Left (r, c), _) -> putStrLn ("Could not parse input at " ++ show (r,c) ++ ".")
+        (_, Left (r, c)) -> putStrLn ("Could not parse answer at " ++ show (r,c) ++ ".")
         (Right p, Right q) -> putStrLn ("Grading complete, got: " ++ show (grade p q points) ++ " out of " ++ show points ++ " points.")

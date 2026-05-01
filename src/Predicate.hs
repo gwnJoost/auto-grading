@@ -38,6 +38,10 @@ findEvaluation p = tryEval (predicateList p) where
     tryEval []     | satisfy [] p = Just []
                    | otherwise = Nothing
 
+    tryEval (x:[]) | satisfy [x] p = Just [x]
+                   | satisfy [] p = Just []
+                   | otherwise = Nothing
+
     tryEval (x:xs) | satisfy (x:xs) p = Just (x:xs)
                    | satisfy xs p = Just xs
                    | otherwise = tryEval (x: drop 1 xs)
