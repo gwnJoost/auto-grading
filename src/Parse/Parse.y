@@ -18,7 +18,6 @@ import Set
 %name propParser PropFormula
 %name setParser Set
 %name itemParser Item
-%name setConstParser SetConst
 %tokentype { Token AlexPosn }
 %error { parseError }
 
@@ -41,6 +40,7 @@ import Set
   'I'    { TokenIntersect  _ }
   '\\'   { TokenDiff   _ }
   INT    { TokenInt $$ _ }
+  STR    { TokenString $$ _ }
 
 %right '<->'
 %right '=>'
@@ -67,6 +67,9 @@ PropFormula : TOP { Top }
 Set
   : '{' '}'              { S [] }
   | '{' Items '}'        { S $2 }
+  | Set 'U' Set          {U $1 $3}
+  | Set 'I' Set          {I $1 $3}
+  | Set '\\' Set         {Diff $1 $3} 
 
 Items
   : Item                 { [$1] }
@@ -75,24 +78,18 @@ Items
 Item
   : INT                   { Int $1 }
   | Set                   { Set $1 }
-
-SetConst : Set 'U' Set {U $1 $3}
-         | Set 'I' Set {I $1 $3}
-         | Set '\\' Set {Diff $1 $3} 
-
 {
 
-type ParseResult a = Either String a
+type ParseResult a = Either (Int,Int) a
 
 parseError :: [Token AlexPosn] -> ParseResult a
-parseError _ = Left "parse error"
+parseError [] = Left (1,1)
+parseError (t:ts) = Left (lin, col) where
+  (AlexPn _ lin col) = apn t
 
-parsePropFormula :: String -> Either String PropFormula
+parsePropFormula :: String -> Either (Int, Int) PropFormula
 parsePropFormula s = propParser (alexScanTokens s)
 
-parseSet :: String -> Either String Set
+parseSet :: String -> Either (Int, Int) Set
 parseSet s = setParser (alexScanTokens s)
-
-parseSetConst :: String -> Either String SetConst
-parseSetConst s = setConstParser (alexScanTokens s)
 }

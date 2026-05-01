@@ -5,6 +5,13 @@ module Tests where
 import Predicate
 import Set
 
+--general questions
+
+--Check if the given answer is equal to the desired answer
+checkTF :: String -> String -> Bool
+checkTF x y = x == y
+
+
 --Predicate logic
 
 --tests checks whether a given formula is equivalent to the model answer.
@@ -14,8 +21,10 @@ checkFormula answer model = checkEquivalent answer model
 
 
 
+--Set Theory
+
 
 
 --Given two expression, determine if said expresions are equivalent.
-setExpEquiv :: SetConst -> SetConst -> Bool
-setExpEquiv x y = (simplify x) == (simplify y)
+
+

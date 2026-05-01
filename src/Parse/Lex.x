@@ -23,7 +23,7 @@ tokens :-
   ")"               { \ p _ -> TokenCB                p }
   -- Formulas:
   "true"            { \ p _ -> TokenTop               p }
-  "⊤"               { \ p _ -> TokenTop               p }
+  "T"               { \ p _ -> TokenTop               p }
   "false"           { \ p _ -> TokenBot               p }
   "⊥"               { \ p _ -> TokenBot               p }
   "~"               { \ p _ -> TokenNeg               p }
@@ -43,8 +43,6 @@ tokens :-
   "<=>"             { \ p _ -> TokenEqui              p }
   "<-->"            { \ p _ -> TokenEqui              p }
   "↔"               { \ p _ -> TokenEqui              p }
-  -- numbers
-  $dig+             { \ p s -> TokenInt (read s)      p }
   -- Sets
   "{"               { \ p _ -> TokenOCB               p }
   "}"               { \ p _ -> TokenCCB               p }
@@ -52,3 +50,6 @@ tokens :-
   "U"               { \ p _ -> TokenUnion             p }
   "I"               { \ p _ -> TokenIntersect         p }
   "\\"              { \ p _ -> TokenDiff              p }
+  -- numbers
+  $dig+             { \ p s -> TokenInt (read s)      p }
+  $alf+             { \ p s -> TokenString s          p }

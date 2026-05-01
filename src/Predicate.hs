@@ -20,21 +20,21 @@ satisfy x (Xor a b) = (satisfy x a && satisfy x (Neg b)) || (satisfy x (Neg a) &
 
 
 --Returns a list of all axioms in a given propositional formula.
-axiomList :: PropFormula -> [Int]
-axiomList p = nub (getAxioms p) where
-    getAxioms (P x) = [x]
-    getAxioms Top = []
-    getAxioms Bot = []
-    getAxioms (Neg x) = getAxioms x
-    getAxioms (And a b) = getAxioms a ++ getAxioms b
-    getAxioms (Or a b) = getAxioms a ++ getAxioms b
-    getAxioms (Impl a b) = getAxioms a ++ getAxioms b
-    getAxioms (Xor a b) = getAxioms a ++ getAxioms b
+predicateList :: PropFormula -> [Int]
+predicateList p = nub (getPredicate p) where
+    getPredicate (P x) = [x]
+    getPredicate Top = []
+    getPredicate Bot = []
+    getPredicate (Neg x) = getPredicate x
+    getPredicate (And a b) = getPredicate a ++ getPredicate b
+    getPredicate (Or a b) = getPredicate a ++ getPredicate b
+    getPredicate (Impl a b) = getPredicate a ++ getPredicate b
+    getPredicate (Xor a b) = getPredicate a ++ getPredicate b
 
 -- Given a Formula , determine a universe where the given formula is true or
 -- false depending on the boolean.
 findEvaluation :: PropFormula -> Maybe [Int]
-findEvaluation p = tryEval (axiomList p) where
+findEvaluation p = tryEval (predicateList p) where
     tryEval []     | satisfy [] p = Just []
                    | otherwise = Nothing
 
@@ -47,13 +47,13 @@ findEvaluation p = tryEval (axiomList p) where
                    | otherwise = tryEval (x: tail xs)
 
 
--- Checks whether two statements are equivalent by checking if an evaluation
--- exists for which one holds but the other does not.
+-- | Checks whether two statements are equivalent by checking if an evaluation
+-- | exists for which one holds but the other does not.
 checkEquivalent :: PropFormula -> PropFormula -> Bool
 checkEquivalent f1 f2 = isNothing (findEvaluation (Xor f1 f2))
 
 
---Check if a proof by equivalence transformations is correct
+-- | Check if a proof by equivalence transformations is correct
 checkEquivalenceProof :: [PropFormula] -> Bool
 checkEquivalenceProof [] = True
 checkEquivalenceProof (_:[]) = True
