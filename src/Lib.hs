@@ -3,17 +3,6 @@ module Lib
     ) where
 
 --File parses input into correct datatype then sends it to the correct autoTest.
-
-import Data.Maybe
-import System.IO
-import Text.Read
-import Control.Monad()
-
---other src files
-import Parse.Parse (parsePropFormula, parseSet)
-import Tests (checkTF)
-
---placeholder grader parses input and tests input using specified autotests.
 grader :: (a -> a -> Float -> Float) -> (String -> Either (Int, Int) a) -> Float -> String -> String -> IO ()
 grader grade parse points input answer = do
     case (parse input, parse answer) of

@@ -1,12 +1,13 @@
 module Set where
 
-import Data.List
+import Data.List (sort, nub, intersect, (\\))
 
 data Set = S [Item] | U Set Set | I Set Set | Diff Set Set deriving (Show, Ord)
 data Item = Set Set | Int Int | T (Item, Item) deriving (Show, Eq, Ord)
 
 instance Eq Set where
     (S x) == (S y) = sort (nub x) == sort (nub y)
+    x == y = (reduce x ) == (reduce y)
 
 --Given a set reduce any duplicates and sort the list.
 reduce :: Set -> Set
@@ -19,6 +20,10 @@ reduce (Diff x y) = S (rx \\ ry) where
   (S rx) = reduce x
   (S ry) = reduce y
 
+isReduced :: Set -> Bool
+isReduced (S x) = (x \\ rx) == [] where
+  (S rx) = reduce (S x)
+isReduced _ = False
 --Add an item to the front of the set
 prependSet :: Item -> Set -> Set
 prependSet i (S x) = S (i:x)
@@ -29,6 +34,7 @@ prependSet i (Diff x y) = (Diff (prependSet i x) y)
 --Concatenate two sets
 concatSet :: Set -> Set -> Set
 concatSet (S x) (S y) = S (x ++ y)
+concatSet x y = concatSet (reduce x) (reduce y)
 
 --Given a set calculate the powerset.
 powerSet :: Set -> Set

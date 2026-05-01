@@ -1,13 +1,11 @@
 module Main (main) where
 
-import System.Environment
 import Options.Applicative
-import Text.Read
 import Control.Monad()
 
 import Lib (grader)
 import Parse.Parse (parsePropFormula, parseSet)
-import Tests (checkTF, predEquiv)
+import Tests (checkTF, predEquiv, setEquiv)
 
 data Config = Config {gradertype :: String, input :: String, model :: String, points :: Float, file :: Bool}
 
@@ -17,11 +15,12 @@ main = runGrader =<< execParser opts where
 
 runGrader :: Config -> IO ()
 runGrader (Config g i a p f) = do
-    input <- if f then readFile i else return i
-    answer <- if f then readFile a else return a
+    inp <- if f then readFile i else return i
+    ans <- if f then readFile a else return a
     case g of
-        "checkTF" -> (grader checkTF (\x -> Right x) p input answer)
-        "predEquiv" -> (grader predEquiv parsePropFormula p input answer)
+        "checkTF" -> (grader checkTF (\x -> Right x) p inp ans)
+        "predEquiv" -> (grader predEquiv parsePropFormula p inp ans)
+        "setEquiv" -> (grader setEquiv parseSet p inp ans)
         _ -> putStrLn "Grader does not exist"
 
 configP :: Parser Config

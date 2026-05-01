@@ -17,6 +17,16 @@ Give the auto test to be used
     TESTS:
 
     - checkTF: Check if two booleans are equal to eachother.
+        two are equivalent: 100% of points.
+        two are not equivalent: 0% points.
+    - predEquiv: Check if two propositional formula are equivalent.
+        two are equivalent but not equal: 50% of points.
+        two are equivalent and equal: 100% points.
+        otherwise: 0% points.
+    - setEquiv: Check if two sets are equivalent.
+        two are equivalent but answer is not reduced: 50% of points.
+        two are equivalent and answer is reduced: 100% of points.
+        otherwise: 0% points.
 
 `-i`: 
 Input answer to be graded.
