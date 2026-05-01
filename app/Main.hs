@@ -7,20 +7,21 @@ import Control.Monad()
 
 import Lib (grader)
 import Parse.Parse (parsePropFormula, parseSet)
-import Tests (checkTF)
+import Tests (checkTF, predEquiv)
 
-data Config = Config {gradertype :: String, input :: String, model :: String, file :: Bool}
+data Config = Config {gradertype :: String, input :: String, model :: String, points :: Float, file :: Bool}
 
 main :: IO ()
 main = runGrader =<< execParser opts where
     opts = info (configP <**> helper) (fullDesc <> progDesc "Automaticalle grade a given input." <> header "autograde - grades logical exercises")
 
 runGrader :: Config -> IO ()
-runGrader (Config g i a f) = do
+runGrader (Config g i a p f) = do
     input <- if f then readFile i else return i
     answer <- if f then readFile a else return a
     case g of
-        "checkTF" -> (grader checkTF (\x -> Right x) input answer)
+        "checkTF" -> (grader checkTF (\x -> Right x) p input answer)
+        "predEquiv" -> (grader predEquiv parsePropFormula p input answer)
         _ -> putStrLn "Grader does not exist"
 
 configP :: Parser Config
@@ -41,6 +42,13 @@ configP = Config
         <> help "The desired model answer."
         <> showDefault
         <> metavar "ANSWER" )
+    <*> option auto
+          ( long "points"
+         <> short 'p'
+         <> help "What is the maximum amount of points the grader should give."
+         <> showDefault
+         <> value 1
+         <> metavar "FLOAT" )
     <*> switch
         ( long "file"
         <> short 'f'

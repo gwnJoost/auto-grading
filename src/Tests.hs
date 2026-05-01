@@ -7,18 +7,21 @@ import Set
 
 --general questions
 
---Check if the given answer is equal to the desired answer
-checkTF :: String -> String -> Bool
-checkTF x y = x == y
+-- Check if the given answer is equal to the desired answer
+-- if equal = 100% points
+-- if not equal = 0% points
+checkTF :: String -> String -> Float -> Float
+checkTF x y points = if x == y then points else 0
 
 
 --Predicate logic
 
 --tests checks whether a given formula is equivalent to the model answer.
---If a difference occurs, return which predicate is different.
-checkFormula :: PropFormula -> PropFormula -> Bool
-checkFormula answer model = checkEquivalent answer model
-
+--if equal
+predEquiv :: PropFormula -> PropFormula -> Float -> Float
+predEquiv x y points | x == y = points
+                                | checkEquivalent x y = points / 2
+                                | otherwise = 0
 
 
 --Set Theory

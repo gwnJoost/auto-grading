@@ -5,7 +5,7 @@ module Predicate where
 import Data.List (nub)
 import Data.Maybe
 
-data PropFormula = Top | Bot | P Int | Neg PropFormula | And PropFormula PropFormula | Or PropFormula PropFormula | Impl PropFormula PropFormula | Xor PropFormula PropFormula deriving (Read, Show)
+data PropFormula = Top | Bot | P Int | Neg PropFormula | And PropFormula PropFormula | Or PropFormula PropFormula | Impl PropFormula PropFormula | Xor PropFormula PropFormula deriving (Eq, Read, Show)
 
 --Given a Universe x and a propositional formuala, determine if the statement holds
 satisfy :: [Int] -> PropFormula -> Bool
