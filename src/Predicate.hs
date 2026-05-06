@@ -2,7 +2,7 @@ module Predicate where
 
 --File contains definition of predicate logic and various function used for predicate logic
 
-import Data.List (nub)
+import Data.List (nub, subsequences)
 import Data.Maybe
 
 data PropFormula = Top | Bot | P Int | Neg PropFormula | And PropFormula PropFormula | Or PropFormula PropFormula | Impl PropFormula PropFormula | Xor PropFormula PropFormula deriving (Eq, Read, Show)
@@ -34,17 +34,10 @@ predicateList p = nub (getPredicate p) where
 -- Given a Formula , determine a universe where the given formula is true or
 -- false depending on the boolean.
 findEvaluation :: PropFormula -> Maybe [Int]
-findEvaluation p = tryEval (predicateList p) where
-    tryEval []     | satisfy [] p = Just []
-                   | otherwise = Nothing
-
-    tryEval (x:[]) | satisfy [x] p = Just [x]
-                   | satisfy [] p = Just []
-                   | otherwise = Nothing
-
-    tryEval (x:xs) | satisfy (x:xs) p = Just (x:xs)
-                   | satisfy xs p = Just xs
-                   | otherwise = tryEval (x: drop 1 xs)
+findEvaluation p = findEval allEvals where
+    allEvals = subsequences (predicateList p)
+    findEval [] = if satisfy [] p then Just [] else Nothing
+    findEval(x:xs) = if satisfy x p then Just x else findEval xs
 
 
 -- | Checks whether two statements are equivalent by checking if an evaluation
