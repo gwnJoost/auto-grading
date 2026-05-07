@@ -31,7 +31,7 @@ tokens :-
   "¬"               { \ p _ -> TokenNeg               p }
   "&"               { \ p _ -> TokenCon               p }
   "^"               { \ p _ -> TokenCon               p }
-  "and"             { \ p _ -> TokenDis               p }
+  "and"             { \ p _ -> TokenCon               p }
   "|"               { \ p _ -> TokenDis               p }
   "v"               { \ p _ -> TokenDis               p }
   "or"              { \ p _ -> TokenDis               p }
