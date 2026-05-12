@@ -1,4 +1,4 @@
-module Tests where
+module QType where
 
 --File containing all tests callable by the Lib file.
 
@@ -21,8 +21,8 @@ checkTF x y points = if x == y then points else 0
 -- 100% if both are equal
 -- 50% if equivalent but not equal
 -- 0% otherwise
-predEquiv :: PropFormula -> PropFormula -> Float -> Float
-predEquiv x y points | x == y = points
+propEquiv :: PropFormula -> PropFormula -> Float -> Float
+propEquiv x y points | x == y = points
                                 | checkEquivalent x y = points / 2
                                 | otherwise = 0
 

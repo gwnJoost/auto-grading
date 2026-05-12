@@ -7,7 +7,7 @@ To build the program, first run:
 ```stack build```
 
 The program runs using the following command:
-```stack exec -- auto-grading-exe -g (GRADER) -i (ANSWER TO BE GRADED) -a (MODEL ANSWER) -p (POINTS) -f``` 
+```stack exec -- auto-grading -g (GRADER) -i (ANSWER TO BE GRADED) -a (MODEL ANSWER) -p (POINTS) -f``` 
 
 Each flag does the following:
 
@@ -19,7 +19,7 @@ Give the auto test to be used
     - checkTF: Check if two booleans are equal to eachother.
         two are equivalent: 100% of points.
         two are not equivalent: 0% points.
-    - predEquiv: Check if two propositional formula are equivalent.
+    - propEquiv: Check if two propositional formula are equivalent.
         two are equivalent but not equal: 50% of points.
         two are equivalent and equal: 100% points.
         otherwise: 0% points.
@@ -29,10 +29,16 @@ Give the auto test to be used
         otherwise: 0% points.
 
 `-i`: 
-Input answer to be graded.
+Input answer to be graded, example:
+
+    for propositional formula: 1 and 2
+
+    for sets: {1,2,3}
+
+For reading in a file: ```question.txt```. This would read out anything within the file ```question.txt```
 
 `-a`:
-Model answer to compare input to.
+Model answer to compare input to, uses same input as `-i`.
 
 `-p`:
 Determine what should be the maximum amount of points awarded, set to 1 if none are given.
