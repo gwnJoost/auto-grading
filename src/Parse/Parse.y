@@ -13,11 +13,14 @@ import Parse.Lex
 
 import Predicate
 import Set
+import Ndeduction
 }
 
 %name propParser PropFormula
 %name setParser Set
 %name itemParser Item
+%name ndParser NDProof
+%name ndLParser NDLine
 %tokentype { Token AlexPosn }
 %error { parseError }
 
@@ -39,6 +42,20 @@ import Set
   'U'    { TokenUnion  _ }
   'I'    { TokenIntersect  _ }
   '\\'   { TokenDiff   _ }
+  'P'    { TokenPrem   _ }
+  'A'    { TokenAss    _ }
+  '->I'  { TokenImplI  _ }
+  '->E'  { TokenImplE  _ }
+  '-I'   { TokenNegI   _ }
+  '-E'   { TokenNegE   _ }
+  '--E'  { TokenDNegE  _ }
+  '^I'   { TokenAndI   _ }
+  '^E'   { TokenAndE   _ }
+  'vI'   { TokenOrI    _ }
+  'vE'   { TokenOrE    _ }
+  'BotE' { TokenBotE   _ }
+  '-'    { TokenDash   _ }
+  '\n'   { TokenNewLn  _ }
   INT    { TokenInt $$ _ }
   STR    { TokenString $$ _ }
 
@@ -78,6 +95,31 @@ Items
 Item
   : INT                   { Int $1 }
   | Set                   { Set $1 }
+
+NDProof
+  : NDLines               {Proof $1}
+
+NDLines
+  : NDLine                {[$1]}
+  | NDLine '\n' NDLines   { $1 : $3 }
+
+NDLine
+  : PropFormula 'P' Lst   {L ($1, Premise, $3)}
+  | PropFormula 'A' Lst   {L ($1, Assumption, $3)}
+  | PropFormula '->I' INT '-' INT Lst   {L ($1, ImplI $3 $5, $6)}
+  | PropFormula '->E' INT INT Lst   {L ($1, ImplE $3 $4, $5)}
+  | PropFormula '-I' INT INT Lst   {L ($1, NegI $3 $4, $5)}
+  | PropFormula '-E' INT INT Lst   {L ($1, NegE $3 $4, $5)}
+  | PropFormula '--E' INT Lst   {L ($1, DNegE $3, $4)}
+  | PropFormula '^I' INT INT Lst   {L ($1, AndI $3 $4, $5)}
+  | PropFormula '^E' INT Lst   {L ($1, AndE $3, $4)}
+  | PropFormula 'vI' INT Lst   {L ($1, OrI $3, $4)}
+  | PropFormula 'vE' INT INT '-' INT INT '-' INT Lst   {L ($1, OrE $3 $4 $6 $7 $9, $10)}
+  | PropFormula 'BotE' INT Lst   {L ($1, BotE $3, $4)}
+
+Lst
+  : INT                  {[$1]}
+  | INT ',' Lst          {$1 : $3}
 {
 
 type ParseResult a = Either (Int,Int) a

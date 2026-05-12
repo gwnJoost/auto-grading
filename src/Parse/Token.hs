@@ -25,5 +25,19 @@ data Token a
   | TokenOCB               {apn :: a}
   | TokenCCB               {apn :: a}
   | TokenComma             {apn :: a}
+  | TokenPrem              {apn :: a}
+  | TokenAss               {apn :: a}
+  | TokenImplI             {apn :: a}
+  | TokenImplE             {apn :: a}
+  | TokenNegE              {apn :: a}
+  | TokenNegI              {apn :: a}
+  | TokenDNegE             {apn :: a}
+  | TokenAndI              {apn :: a}
+  | TokenAndE              {apn :: a}
+  | TokenOrI               {apn :: a}
+  | TokenOrE               {apn :: a}
+  | TokenBotE              {apn :: a}
+  | TokenDash              {apn :: a}
+  | TokenNewLn             {apn :: a}
 
   deriving (Eq,Show)

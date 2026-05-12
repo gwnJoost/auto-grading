@@ -4,6 +4,7 @@ module Tests where
 
 import Predicate
 import Set
+import Ndeduction
 
 --general questions
 
@@ -37,4 +38,5 @@ setEquiv x y points | (reduce x) == (reduce y) && isReduced x = points
                     | (reduce x) == (reduce y) = points / 2
                     | otherwise = 0
 
-
+--NDvalidate :: NDProof -> NDProof -> Float -> Float
+--NDvalidate x y points |

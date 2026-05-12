@@ -50,6 +50,27 @@ tokens :-
   "U"               { \ p _ -> TokenUnion             p }
   "I"               { \ p _ -> TokenIntersect         p }
   "\\"              { \ p _ -> TokenDiff              p }
+  -- Natural Deduction
+  "P"               { \ p _ -> TokenPrem              p }
+  "A"               { \ p _ -> TokenAss               p }
+  "->I"             { \ p _ -> TokenImplI             p }
+  "->E"             { \ p _ -> TokenImplE             p }
+  "-I"              { \ p _ -> TokenNegI              p }
+  "-E"              { \ p _ -> TokenNegE              p }
+  "¬I"              { \ p _ -> TokenNegI              p }
+  "¬E"              { \ p _ -> TokenNegE              p }
+  "--E"             { \ p _ -> TokenDNegE             p }
+  "¬¬E"             { \ p _ -> TokenDNegE             p }
+  "^I"              { \ p _ -> TokenAndI              p }
+  "^E"              { \ p _ -> TokenAndE              p }
+  "vI"              { \ p _ -> TokenOrI               p }
+  "VE"              { \ p _ -> TokenAndI              p }
+  "BotE"            { \ p _ -> TokenBotE              p }
+  "⊥E"              { \ p _ -> TokenBotE              p }
+  -- other
+  '-'               { \ p _ -> TokenDash              p }
+  '\n'              { \ p _ -> TokenNewLn             p }
   -- numbers
   $dig+             { \ p s -> TokenInt (read s)      p }
   $alf+             { \ p s -> TokenString s          p }
+
