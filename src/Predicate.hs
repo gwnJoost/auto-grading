@@ -51,3 +51,15 @@ checkEquivalenceProof :: [PropFormula] -> Bool
 checkEquivalenceProof [] = True
 checkEquivalenceProof (_:[]) = True
 checkEquivalenceProof (x:y:xs) = checkEquivalent x y && checkEquivalenceProof (y:xs)
+
+-- Given a propositional formula, determine the complexity of the formula.
+complexity :: PropFormula -> Int
+complexity (P x) = 0
+complexity Top = 0
+complexity Bot = 0
+complexity (Neg x) = 1 + (complexity x)
+complexity (And x y) = 1 + (complexity x) + (complexity y)
+complexity (Or x y) = 1 + (complexity x) + (complexity y)
+complexity (Xor x y) = 1 + (complexity x) + (complexity y)
+complexity (Impl x y) = 1 + (complexity x) + (complexity y)
+

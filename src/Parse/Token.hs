@@ -39,5 +39,5 @@ data Token a
   | TokenBotE              {apn :: a}
   | TokenDash              {apn :: a}
   | TokenNewLn             {apn :: a}
-
+  | TokenSemiColon         {apn :: a}
   deriving (Eq,Show)

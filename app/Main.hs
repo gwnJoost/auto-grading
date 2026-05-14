@@ -4,8 +4,8 @@ import Options.Applicative
 import Control.Monad()
 
 import Lib (grader)
-import Parse.Parse (parsePropFormula, parseSet)
-import QType (checkTF, propEquiv, setEquiv)
+import Parse.Parse (parsePropFormula, parseSet, parseND)
+import QType (checkTF, propEquiv, setEquiv, verifyND)
 
 data Config = Config {gradertype :: String, input :: String, model :: String, points :: Float, file :: Bool}
 
@@ -21,6 +21,7 @@ runGrader (Config g i a p f) = do
         "checkTF" -> (grader checkTF (\x -> Right x) p inp ans)
         "propEquiv" -> (grader propEquiv parsePropFormula p inp ans)
         "setEquiv" -> (grader setEquiv parseSet p inp ans)
+        "verifyND" -> (grader verifyND parseND p inp ans)
         _ -> putStrLn "Grader does not exist"
 
 configP :: Parser Config

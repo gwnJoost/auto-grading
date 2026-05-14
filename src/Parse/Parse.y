@@ -56,9 +56,19 @@ import Ndeduction
   'BotE' { TokenBotE   _ }
   '-'    { TokenDash   _ }
   '\n'   { TokenNewLn  _ }
+  ';'    { TokenSemiColon _ }
   INT    { TokenInt $$ _ }
   STR    { TokenString $$ _ }
 
+%right '->I'
+%right '->E'
+%right '-I'
+%right '-E'
+%right '--E'
+%right '^I'
+%right '^E'
+%right 'vI'
+%right '^E'
 %right '<->'
 %right '=>'
 %left '|'
@@ -70,11 +80,36 @@ import Ndeduction
 %nonassoc 'I'
 
 %%
+NDProof
+  : NDLines               {Proof $1}
+
+NDLines
+  : NDLine                {[$1]}
+  | NDLine ';' NDLines   { $1 : $3 }
+
+NDLine
+  : PropFormula 'P' Lst   {L ($1, Premise, $3)}
+  | PropFormula 'A' Lst   {L ($1, Assumption, $3)}
+  | PropFormula '->I' INT '-' INT Lst   {L ($1, ImplI $3 $5, $6)}
+  | PropFormula '->E' INT INT Lst   {L ($1, ImplE $3 $4, $5)}
+  | PropFormula '-I' INT INT Lst   {L ($1, NegI $3 $4, $5)}
+  | PropFormula '-E' INT INT Lst   {L ($1, NegE $3 $4, $5)}
+  | PropFormula '--E' INT Lst   {L ($1, DNegE $3, $4)}
+  | PropFormula '^I' INT INT Lst   {L ($1, AndI $3 $4, $5)}
+  | PropFormula '^E' INT Lst   {L ($1, AndE $3, $4)}
+  | PropFormula 'vI' INT Lst   {L ($1, OrI $3, $4)}
+  | PropFormula 'vE' INT INT '-' INT INT '-' INT Lst   {L ($1, OrE $3 $4 $6 $7 $9, $10)}
+  | PropFormula 'BotE' INT Lst   {L ($1, BotE $3, $4)}
+
+Lst
+  : INT                  {[$1]}
+  | INT ',' Lst          {$1 : $3}
 
 PropFormula : TOP { Top }
             | BOT { Bot }
             | '(' PropFormula ')' { $2 }
             | '~' PropFormula { Neg $2 }
+            | '-' PropFormula { Neg $2 }
             | PropFormula '=>' PropFormula {Impl $1 $3 }
             | PropFormula '&' PropFormula {And $1 $3 }
             | PropFormula '|' PropFormula {Or $1 $3 }
@@ -95,31 +130,6 @@ Items
 Item
   : INT                   { Int $1 }
   | Set                   { Set $1 }
-
-NDProof
-  : NDLines               {Proof $1}
-
-NDLines
-  : NDLine                {[$1]}
-  | NDLine '\n' NDLines   { $1 : $3 }
-
-NDLine
-  : PropFormula 'P' Lst   {L ($1, Premise, $3)}
-  | PropFormula 'A' Lst   {L ($1, Assumption, $3)}
-  | PropFormula '->I' INT '-' INT Lst   {L ($1, ImplI $3 $5, $6)}
-  | PropFormula '->E' INT INT Lst   {L ($1, ImplE $3 $4, $5)}
-  | PropFormula '-I' INT INT Lst   {L ($1, NegI $3 $4, $5)}
-  | PropFormula '-E' INT INT Lst   {L ($1, NegE $3 $4, $5)}
-  | PropFormula '--E' INT Lst   {L ($1, DNegE $3, $4)}
-  | PropFormula '^I' INT INT Lst   {L ($1, AndI $3 $4, $5)}
-  | PropFormula '^E' INT Lst   {L ($1, AndE $3, $4)}
-  | PropFormula 'vI' INT Lst   {L ($1, OrI $3, $4)}
-  | PropFormula 'vE' INT INT '-' INT INT '-' INT Lst   {L ($1, OrE $3 $4 $6 $7 $9, $10)}
-  | PropFormula 'BotE' INT Lst   {L ($1, BotE $3, $4)}
-
-Lst
-  : INT                  {[$1]}
-  | INT ',' Lst          {$1 : $3}
 {
 
 type ParseResult a = Either (Int,Int) a
@@ -134,4 +144,7 @@ parsePropFormula s = propParser (alexScanTokens s)
 
 parseSet :: String -> Either (Int, Int) Set
 parseSet s = setParser (alexScanTokens s)
+
+parseND :: String -> Either (Int, Int) NDProof
+parseND s = ndParser (alexScanTokens s)
 }

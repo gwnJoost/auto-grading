@@ -27,6 +27,8 @@ Give the auto test to be used
         two are equivalent but answer is not reduced: 50% of points.
         two are equivalent and answer is reduced: 100% of points.
         otherwise: 0% points.
+    - validateND: Check if a natural deduction proof is valid and proves the correct statement.
+        model input answer should contain a natural deduction proof with only the premises and the final derivation.
 
 `-i`: 
 Input answer to be graded, example:
