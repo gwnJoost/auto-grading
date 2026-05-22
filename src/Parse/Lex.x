@@ -32,17 +32,25 @@ tokens :-
   "-E"              { \ p _ -> TokenNegE              p }
   "¬I"              { \ p _ -> TokenNegI              p }
   "¬E"              { \ p _ -> TokenNegE              p }
+  "NegI"            { \ p _ -> TokenNegI              p }
+  "NegE"            { \ p _ -> TokenNegE              p }
   "--E"             { \ p _ -> TokenDNegE             p }
   "¬¬E"             { \ p _ -> TokenDNegE             p }
   "^I"              { \ p _ -> TokenAndI              p }
+  "AndI"            { \ p _ -> TokenAndI              p }
   "^E"              { \ p _ -> TokenAndE              p }
+  "AndE"            { \ p _ -> TokenAndE              p }
   "vI"              { \ p _ -> TokenOrI               p }
-  "vE"              { \ p _ -> TokenOrE              p }
+  "OrI"             { \ p _ -> TokenOrI               p }
+  "vE"              { \ p _ -> TokenOrE               p }
+  "OrE"             { \ p _ -> TokenOrE               p }
   "BotE"            { \ p _ -> TokenBotE              p }
   "⊥E"              { \ p _ -> TokenBotE              p }
   -- Formulas:
   "true"            { \ p _ -> TokenTop               p }
   "T"               { \ p _ -> TokenTop               p }
+  "Top"             { \ p _ -> TokenTop               p }
+  "Bot"             { \ p _ -> TokenBot               p }
   "false"           { \ p _ -> TokenBot               p }
   "⊥"               { \ p _ -> TokenBot               p }
   "~"               { \ p _ -> TokenNeg               p }
