@@ -92,7 +92,7 @@ NDLine
   | PropFormula 'A' Lst   {L ($1, Assumption, $3)}
   | PropFormula '->I' INT '-' INT Lst   {L ($1, ImplI $3 $5, $6)}
   | PropFormula '->E' INT INT Lst   {L ($1, ImplE $3 $4, $5)}
-  | PropFormula '-I' INT INT Lst   {L ($1, NegI $3 $4, $5)}
+  | PropFormula '-I' INT '-' INT Lst   {L ($1, NegI $3 $5, $6)}
   | PropFormula '-E' INT INT Lst   {L ($1, NegE $3 $4, $5)}
   | PropFormula '--E' INT Lst   {L ($1, DNegE $3, $4)}
   | PropFormula '^I' INT INT Lst   {L ($1, AndI $3 $4, $5)}
