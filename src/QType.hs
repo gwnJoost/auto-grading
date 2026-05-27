@@ -43,7 +43,8 @@ setEquiv x y points | (reduce x) == (reduce y) && isReduced x = points
 --  1. first lines should contain all the premises.
 --  2. the final line should contain the resulting formula to be reduced to.
 verifyND :: NDProof -> NDProof -> Float -> Float
-verifyND (Proof x) (Proof y) points | all validateCorrectProof x && validateND (Proof x) = points
+verifyND (Proof x) (Proof y) points | all validateCorrectProof x && validateND (Proof x) && length x <= length y = points
+                                    | all validateCorrectProof x && validateND (Proof x) = points / 2
                                     | otherwise = 0 where
     validateCorrectProof (L (f, Premise, d)) = elem (L (f, Premise, d)) y
     validateCorrectProof (L (f, o, d)) = if (L (f, o, d)) == last x then fx == fy && dx == dy else True where

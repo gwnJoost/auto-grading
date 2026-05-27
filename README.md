@@ -47,3 +47,16 @@ Determine what should be the maximum amount of points awarded, set to 1 if none 
 
 `-f`: 
 Use this option to read in from a file instad of the arguments. `-i` and `-a` should be directories instead of singular lines.
+
+## examples
+The examples folder contains an example model contains example files to test the automatic grader. Each grader contains an example file with a model answer to use, along with several files containing candidate answers. To run the automatic grader using the example files, simply execute the following command:
+
+```stack exec -- auto-grading -g (GRADER) -i "examples/(QUESTIONTYPE)/(CANDIDATEANSWER)" -a "examples/(QUESTIONTYPE)/modelAnswer.txt" -p (POINTS) -f```
+- GRADER: Which type of question is to be graded. See previous explaination for list of graders.
+- QUESTIONTYPE: The system to which the question relates to. Can either be Propositional, Set or Ndeduction.
+- POINTS: Amount of points that can be awarded.
+- CANDIDATEANSWER: The answer to be graded. Can be either: notCorrect.txt, partiallyCorrect.txt or fullyCorrect.txt. Numbers are appended to the end of the filename in case multiple variants exist.
+
+For example, to run the grader testing the partially correct answer for propositional logic, run the following command:
+
+```stack exec -- auto-grading -g propEquiv -i "examples/Propositional/partiallyCorrect.txt" -a "examples/Propositional/modelAnswer.txt" -f```

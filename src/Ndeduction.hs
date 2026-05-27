@@ -57,7 +57,7 @@ validateND (Proof lst) = all checkLine lst where
                                             checkDep d (da ++ db) 
                                             && fa == fb
                                         (Just (L (Neg fa, oa, da)), Just (L (fb, ob, db))) -> 
-                                            checkDep d (nub (da ++ db))
+                                            checkDep d (da ++ db)
                                             && fa == fb
                                         _ -> False
     checkLine (L (f, DNegE i, d)) = case findLine (Proof lst) i of
