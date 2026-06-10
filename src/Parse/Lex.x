@@ -54,6 +54,7 @@ tokens :-
   "false"           { \ p _ -> TokenBot               p }
   "⊥"               { \ p _ -> TokenBot               p }
   "~"               { \ p _ -> TokenNeg               p }
+  "not"             { \ p _ -> TokenNeg               p }
   "-"               { \ p _ -> TokenDash              p }
   "¬"               { \ p _ -> TokenNeg               p }
   "&"               { \ p _ -> TokenCon               p }
